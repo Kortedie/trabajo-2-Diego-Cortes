@@ -9,11 +9,7 @@ void Ping(string ip);
 
 pthread_mutex_t mutex;
 string packt;
-struct IP{
-    string ip;
-    int Packege;
-    int Ploss;
-};
+
 
 int main(int argc, char *argv[]){
     packt = argv[2];
@@ -80,13 +76,8 @@ int main(int argc, char *argv[]){
         status = "DOWN";
     }
     pthread_mutex_lock(&mutex);
-	if(ip.length() < 10){
-		cout << ip << "\t\t" << packe << "\t" << packag << "\t" << packr << "\t" << status << endl;
-	}
-        else{
-		cout << ip << "\t" << packe << "\t" <<packag  << "\t" << packr << "\t" << status << endl;
-   }
-   pthread_mutex_unlock(&mutex);
+	cout << ip << "\t\t" << packe << "\t" << packag << "\t" << packr << "\t" << status << endl;
+    pthread_mutex_unlock(&mutex);
 
 }
 
