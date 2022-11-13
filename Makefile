@@ -1,15 +1,15 @@
-ARCH = "archivo_listado_ips.txt" # $(OBJS)
-BINARY = 2 # $(BINARY)
+ARCHIVO = "ips.txt" # $(OBJS)
+SENAL = 4 # $(BINARY)
 
 
 all: ipMain
 
-ipMain: ipInfoThread.o
-	g++ ipInfoThread.o -o ipInfoThread -lpthread
-	./ipInfoThread $(ARCH) $(BINARY)
+ipMain: main.o
+	g++ main.o -o infoip -lpthread
+	./infoip $(ARCHIVO) $(SENAL)
 
-ipInfoThread.o: ipInfoThread.cpp
-	@g++ -c ipInfoThread.cpp
+main.o: main.cpp
+	@g++ -c main.cpp
 
 clean:
 	rm -f ipInfoThread *.o

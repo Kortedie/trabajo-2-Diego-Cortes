@@ -1,13 +1,14 @@
 #include <iostream>
 #include <fstream>
 #include <thread>
+#include <string>
 
 using namespace std;
 
 void Ping(string ip);
 
 pthread_mutex_t mutex;
-
+string packt;
 struct IP{
     string ip;
     int Packege;
@@ -15,6 +16,7 @@ struct IP{
 };
 
 int main(int argc, char *argv[]){
+    packt = argv[2];
     pthread_mutex_init(&mutex, NULL);
     ifstream ip(argv[1]);
     string line;
@@ -24,20 +26,18 @@ int main(int argc, char *argv[]){
         countline++;
     }
     ip.close();
-    struct IP data[countline];
     thread threads[countline];
     ifstream ip1("ips.txt");
     string line1;
+    string ips[countline];
     int aux=0;
-    cout<<"Id"<<"\t\t"<<"Trans."<<"\t"<<"Rec"<<"\t"<<"Perd."<<"\t"<<"Estado"<<endl;
-    cout<<"========================================"<<endl;
+    cout<<"IP"<<"\t\t"<<"Trans."<<"\t"<<"Rec"<<"\t"<<"Perd."<<"\t"<<"Estado"<<endl;
+    cout<<"=============================================="<<endl;
     while (getline(ip1, line1)){
-        data[aux].Ip = line1;
-        data[aux].Packege = atoi(argv[2]);
-        threads[aux] = thread(Ping, &data[aux]);
+        threads[aux] = thread(Ping, ips[aux]);
         aux++;
     }
-    for (int i = 0; i < lineText; i++)
+    for (int i = 0; i < countline; i++)
     {
         threads[i].join();
     }
@@ -45,14 +45,13 @@ int main(int argc, char *argv[]){
     return 0;
 }
 
-    void Ping(struct IPINFO *data)
+    void Ping(string ip)
 {
     char buffer[128];
-    char result = " ";
-    FILE * sistem;
-    sistem = popen(("ping " + (data)->Ip + " -c " + to_string((data)->Packege) + " | grep -i received").c_str() , "r");
+    string result = " ";
+    FILE * sistem = popen(("ping " + ip + " -c " + packt).c_str(), "r");
     if (!sistem) {
-    return "popen failed!";
+        cout<< "popen failed!";
     }
     while (!feof(sistem)) {
     if (fgets(buffer, 128, sistem) != NULL)
@@ -64,27 +63,30 @@ int main(int argc, char *argv[]){
         if (result[i] == ','){
             int j = i+2;
             while(result[j]!= ' '){
-                packetr += result[j];
+                pack += result[j];
                 j++;
             }
         }
         i++;
     }
-
-    coustring status;
-	if(stoi(receive) > 0){
+    int packag = stoi(pack);
+    int packe = stoi (packt);
+    int packr = packe - packag;
+    string status;
+	if(packe > 0){
         status = "UP";
     }
 	else{
         status = "DOWN";
     }
-	int lost = stoi(pckg) - stoi(receive);
-    myMutex.lock();
-	if(ip.length() < 10)
-	cout << ip << "\t\t" << pckg << "\t" << receive << "\t" << lost << "\t" << status << endl;
-	else
-	cout << ip << "\t" << pckg << "\t" << receive << "\t" << lost << "\t" << status << endl;
-	myMutex.unlock();
+    pthread_mutex_lock(&mutex);
+	if(ip.length() < 10){
+		cout << ip << "\t\t" << packe << "\t" << packag << "\t" << packr << "\t" << status << endl;
+	}
+        else{
+		cout << ip << "\t" << packe << "\t" <<packag  << "\t" << packr << "\t" << status << endl;
+   }
+   pthread_mutex_unlock(&mutex);
 
 }
 
