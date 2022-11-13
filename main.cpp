@@ -24,14 +24,17 @@ int main(int argc, char *argv[]){
     ip.close();
     thread threads[countline];
     ifstream ip1("ips.txt");
-    string line1;
+    int aux = 0;
     string ips[countline];
-    int aux=0;
-    cout<<"IP"<<"\t\t"<<"Trans."<<"\t"<<"Rec"<<"\t"<<"Perd."<<"\t"<<"Estado"<<endl;
-    cout<<"=============================================="<<endl;
+    string line1;
     while (getline(ip1, line1)){
-        threads[aux] = thread(Ping, ips[aux]);
-        aux++;
+       ips[aux] = line1;
+       aux++;
+    }
+    cout<<"IP"<<"\t\t\t"<<"Trans."<<"\t"<<"Rec"<<"\t"<<"Perd."<<"\t"<<"Estado"<<endl;
+    cout<<"======================================================"<<endl;
+    for(int i=0;i<countline; i++){
+        threads[i] = thread(Ping, ips[i]);
     }
     for (int i = 0; i < countline; i++)
     {
@@ -66,7 +69,7 @@ int main(int argc, char *argv[]){
         i++;
     }
     int packag = stoi(pack);
-    int packe = stoi (packt);
+    int packe = stoi(packt);
     int packr = packe - packag;
     string status;
 	if(packe > 0){
